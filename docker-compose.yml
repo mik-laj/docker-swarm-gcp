@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - 8080:8080
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  whoami:
+    image: jwilder/whoami
+    deploy:
+      replicas: 10
+    ports:
+      - "8000:8000"
+
+  app:
+#    image: panj/debugging-simple-server
+    image: gcr.io/docker-experiments-2018-12/sample-tag:latest
+    deploy:
+      replicas: 5
+    ports:
+      - "80:3000"
